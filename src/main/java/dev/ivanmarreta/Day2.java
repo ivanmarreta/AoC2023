@@ -21,6 +21,7 @@ class Day2 {
         try (Stream<String> stream = Files.lines(Paths.get(fileName))) {
 
             int gameSum = 0;
+            int totalPowerOfMinSets = 0;
 
             for (String line : stream.toList()) {
 
@@ -29,6 +30,10 @@ class Day2 {
 
                 String[] bagsSplitArray = gameBagsSplitArray[1].split(";");
                 boolean impossible = false;
+
+                int minRed = 0;
+                int minGreen = 0;
+                int minBlue = 0;
 
                 for (String bag : bagsSplitArray) {
                     int counterRed = 0;
@@ -48,6 +53,14 @@ class Day2 {
                             counterBlue += cubeValue;
                         }
 
+                        if (cubeString.contains(RED_COLOR) && cubeValue > minRed) {
+                            minRed = cubeValue;
+                        } else if (cubeString.contains(GREEN_COLOR) && cubeValue > minGreen) {
+                            minGreen = cubeValue;
+                        } else if (cubeString.contains(BLUE_COLOR) && cubeValue > minBlue) {
+                            minBlue = cubeValue;
+                        }
+
                         if (counterRed > RED_CUBES
                                 || counterGreen > GREEN_CUBES
                                 || counterBlue > BLUE_CUBES) {
@@ -56,12 +69,17 @@ class Day2 {
                     }
                 }
 
+                int powerOfMinimumSet = minRed * minGreen * minBlue;
+                totalPowerOfMinSets += powerOfMinimumSet;
+
                 if (!impossible) {
                     gameSum += gameNumber;
                 }
+
             }
 
-            System.out.println(gameSum);
+            System.out.println("Part 1: " + gameSum);
+            System.out.println("Part 2: " + totalPowerOfMinSets);
         }
     }
 
